@@ -1,0 +1,21 @@
+document.getElementById("bookingForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const pickup = document.getElementById("pickup").value;
+    const dropoff = document.getElementById("dropoff").value;
+    const time = document.getElementById("time").value;
+
+    fetch('/book-ride', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ pickup, dropoff, time })
+    })
+    .then(response => response.json())
+    .then(data => {
+        const confirmationDiv = document.getElementById("confirmation");
+        confirmationDiv.textContent = `Booking Confirmed! Your cab will pick you up from ${data.pickup} to ${data.dropoff} at ${data.time}.`;
+    })
+    .catch(error => console.error("Error:", error));
+});
